@@ -1,0 +1,42 @@
+{
+    "itineraries": [
+      {
+        "id": 1,
+        "country": "Japan",
+        "cost": 1200,
+        "time": "4 days",
+        "places_visited": [
+          "Osaka",
+          "Kyoto"
+        ],
+        "profile_pic": "link_to_profile_pic_1.jpg",
+        "username": "jpnvlogger",
+        "people": 2
+      },
+      {
+        "id": 2,
+        "country": "Iceland",
+        "cost": 900,
+        "time": "4 days",
+        "places_visited": [
+          "Reykjavik"
+        ],
+        "profile_pic": "link_to_profile_pic_2.jpg",
+        "username": "icevlogger",
+        "people": 2
+      },
+      {
+        "id": 3,
+        "country": "Japan",
+        "cost": 1000,
+        "time": "4 days",
+        "places_visited": [
+          "Mt Fuji",
+          "Tokyo"
+        ],
+        "profile_pic": "link_to_profile_pic_3.jpg",
+        "username": "jpnvlogger",
+        "people": 2
+      }
+    ]
+  }
