@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="p-4 border-t-4 text-gray-700">
+    <footer className="p-4 border-t-4 text-gray-700 mt-auto">
       <div className="flex flex-col md:flex-row justify-between">
         <div className="flex-1 mb-4 md:mb-0">
           <h3 className="font-bold text-lg">Contact</h3>

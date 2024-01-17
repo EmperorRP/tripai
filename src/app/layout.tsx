@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google'; // Import Poppins font
 import './globals.css';
 import { Fragment } from 'react';
+import {Providers} from "./providers";
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -22,11 +23,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.className} bg-gray-100 flex flex-col min-h-screen`}>
-        <Navbar />
-        <main className="flex-grow">
-          {children}
-        </main>
-        <Footer />
+        <Providers>
+          <Navbar />
+          <main className="flex-grow w-full">
+            {children}
+          </main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
