@@ -4,12 +4,14 @@ import React, { useState } from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
+import Link from 'next/link';
 
 type City = {
   city: string;
 };
 
 const FilterPage: React.FC = () => {
+  const [itineraryData, setItineraryData] = useState(null);
   const [selectedCity, setSelectedCity] = useState<string>('');
   const [cityOptions, setCityOptions] = useState<City[]>([]);
   const [startDate, setStartDate] = useState<Date | null>(new Date());
@@ -55,9 +57,12 @@ const FilterPage: React.FC = () => {
     fetchCities(value);
   };
 
-  const handleSelectionChange = (value: string | number) => {
-    if (typeof value === 'string') {
-      setSelectedCity(value);
+  const handleSelectionChange = (key: React.Key) => {
+    // Find the city name corresponding to the selected key
+    const city = cityOptions.find(city => city.city === key);
+    if (city) {
+      setSelectedCity(city.city);
+      console.log("City selected: ", city.city); // Log for debugging
     }
   };
 
@@ -71,6 +76,32 @@ const FilterPage: React.FC = () => {
     setNumberOfPersons((prevCount) => (prevCount > 1 ? prevCount - 1 : 1));
   };
 
+  const fetchItinerary = async () => {
+    // Construct the filters object from the component's state
+    console.log("Sending City: ", selectedCity);
+
+    const filters = {
+        city: selectedCity,
+        startDate: startDate ? startDate.toISOString().split('T')[0] : null, // Format date to 'YYYY-MM-DD'
+        endDate: endDate ? endDate.toISOString().split('T')[0] : null,       // Format date to 'YYYY-MM-DD'
+        numberOfPersons: numberOfPersons,
+        activities: selectedActivities,
+        activityPerDay: selectedActivityPerDay,
+        cuisines: cuisines.filter(cuisine => selectedActivities.includes(cuisine)), // Assuming selectedActivities contains cuisines
+        foodTypes: foodTypes.filter(foodType => selectedActivities.includes(foodType)), // Assuming selectedActivities contains food types
+        mealsIncluded: mealsIncluded.filter(meal => selectedActivities.includes(meal)), // Assuming selectedActivities contains meals
+        accommodationTypes: accomodationTypes.filter(type => selectedActivities.includes(type)), // Assuming selectedActivities contains accommodation types
+        specificAmenities: specificAmenities.filter(amenity => selectedActivities.includes(amenity)), // Assuming selectedActivities contains amenities
+    };
+
+    try {
+        const response = await axios.post('http://127.0.0.1:5000/generate-itinerary', filters);
+        setItineraryData(response.data); // Assuming you have a state to store this data
+    } catch (error) {
+        console.error('Error fetching itinerary:', error);
+        // Handle the error
+    }
+  };
 
   return (
     <main className='flex flex-col flex-grow items-center pt-8 min-h-screen'>
@@ -281,13 +312,18 @@ const FilterPage: React.FC = () => {
           ))}
         </div>
         <div className='flex justify-end'>
-            <Button className='rounded-lg p-3 m-1 mb-4 border-2 border-custom-blue'>
+          <Link href='/itinerary'>
+            <Button
+                onClick={fetchItinerary}
+                className='rounded-lg p-3 m-1 mb-4 border-2 border-custom-blue'>
                 Search
-            </Button> 
+            </Button>
+          </Link>
         </div>
       </div>
     </main>
   );
 };
+
 
 export default FilterPage;

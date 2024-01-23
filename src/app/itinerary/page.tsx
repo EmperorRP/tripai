@@ -15,7 +15,7 @@ import { Divider } from "@nextui-org/react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ItineraryMap from "@/components/ItineraryMap";
 
-export default function about() {
+export default function ItineraryPage() {
   // Need support for more currencies (probably should use some json with all currencies)
   const items = [
     {
@@ -27,9 +27,13 @@ export default function about() {
       label: "₹ INR",
     },
   ];
+  
 
   return (
     <main className="flex flex-col lg:flex-row h-screen">
+      {/* {itineraryData && itineraryData.map(day => (
+            // Render each day's activities, meals, etc.
+        ))} */}
       {/* Left side content */}
       <div className="flex-grow lg:w-1/2 p-4 lg:p-6 overflow-auto">
         {/* Currency dropdown and city name */}
