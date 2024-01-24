@@ -2,7 +2,7 @@ import * as React from 'react';
 import Map from 'react-map-gl';
 
 export default function ItineraryMap() {
-  const TOKEN = "pk.eyJ1IjoidGhlcmFodWxwdWphcmkiLCJhIjoiY2xyN3g5YjZrMjkwMTJqcDhlbjQzazQwdyJ9.ON6Iebncf1MQOubXeAyC7Q";
+  const TOKEN = "";
   return (
     <div style={{ width: '100%', height: '100%' }}>
       <Map

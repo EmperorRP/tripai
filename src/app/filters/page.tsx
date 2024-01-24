@@ -95,10 +95,11 @@ const FilterPage: React.FC = () => {
     };
 
     try {
-        const response = await axios.post('http://127.0.0.1:5000/generate-itinerary', filters);
-        setItineraryData(response.data); // Assuming you have a state to store this data
+      const response = await axios.post('http://127.0.0.1:5000/generate-itinerary', filters);
+      localStorage.setItem('itineraryData', JSON.stringify(response.data));
+      window.location.href = '/itinerary'; // Redirect to ItineraryPage
     } catch (error) {
-        console.error('Error fetching itinerary:', error);
+      console.error('Error fetching itinerary:', error);
         // Handle the error
     }
   };
@@ -312,13 +313,11 @@ const FilterPage: React.FC = () => {
           ))}
         </div>
         <div className='flex justify-end'>
-          <Link href='/itinerary'>
-            <Button
-                onClick={fetchItinerary}
-                className='rounded-lg p-3 m-1 mb-4 border-2 border-custom-blue'>
-                Search
-            </Button>
-          </Link>
+          <Button
+              onClick={fetchItinerary}
+              className='rounded-lg p-3 m-1 mb-4 border-2 border-custom-blue'>
+              Search
+          </Button>
         </div>
       </div>
     </main>

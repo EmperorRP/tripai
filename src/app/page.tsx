@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import Link from 'next/link';
 
 
 interface Itinerary {
@@ -23,26 +24,10 @@ interface Itinerary {
   people: number;
 }
 
-async function getItinerary(): Promise<Itinerary[]> {
-  const result = await fetch("http://localhost:3001/itineraries");
-
-  return result.json();
-}
-
 export default function Home() {
   const [itineraries, setItineraries] = useState<Itinerary[]>([]);
   const [offset, setOffset] = useState(0);
   const [windowWidth, setWindowWidth] = useState(0);
-
-  // Fetch itineraries
-  useEffect(() => {
-    async function fetchItineraries() {
-      const result = await fetch("http://localhost:3001/itineraries");
-      const data = await result.json();
-      setItineraries(data);
-    }
-    fetchItineraries();
-  }, []);
 
   const imageWidth = 3584;
   const scrollSpeed = 200;
@@ -108,48 +93,17 @@ export default function Home() {
         
         {/* Form section */}
         <div className="md:flex md:flex-1 md:flex-col md:justify-center md:items-end">
-          <h2 className="text-xl md:text-2xl font-bold text-custom-blue mb-4 my-3">Where do you want to go?</h2>
           <div className="w-full max-w-md">
             <div className="flex items-center border-b border-custom-blue py-2">
               <input className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Enter Location" aria-label="Full name" />
-              <button className="flex-shrink-0 bg-custom-blue hover:bg-teal-500 border-custom-blue hover:border-teal-500 text-sm border-4 text-white py-1 px-2 rounded" type="button">
-                Let's go!
-              </button>
-              <button className="flex-shrink-0 border-transparent border-4 text-teal-500 hover:text-teal-800 text-sm py-1 px-2 rounded" type="button">
-                Randomize
-              </button>
+              <Link href="/filters">
+                <button className="flex-shrink-0 bg-custom-blue hover:bg-teal-500 border-custom-blue hover:border-teal-500 text-sm border-4 text-white py-1 px-2 rounded" type="button">
+                  Let's go!
+                </button>
+              </Link>
             </div>
           </div>
         </div>
-      </div>
-      <div className='flex flex-col p-8 '>
-        <h2 className='text-xl my-1'>Check out other people's itineraries</h2>
-        {itineraries.map(itinerary => (
-            <Card key={itinerary.id} className={`my-2 p-4 border-2 border-custom-blue ${itinerary.id === 1 ? 'bg-card-glow glow' : ''}`}>
-              <div className="grid grid-cols-1 sm:grid-cols-6 gap-1 items-center">
-                <div className="col-span-1 sm:col-span-1 flex justify-center sm:justify-start">
-                  <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>{itinerary.username.substring(0, 2)}</AvatarFallback>
-                  </Avatar>
-                </div>                
-                <div className="col-span-1 text-center sm:text-left">
-                  <CardDescription>{itinerary.username}</CardDescription>
-                  <CardTitle>{itinerary.country}</CardTitle>
-                </div>
-                <div className="col-span-1 text-center sm:text-left">
-                  <CardDescription>{itinerary.people} pax</CardDescription>
-                  <CardDescription>{itinerary.time}</CardDescription>
-                </div>
-                <div className="col-span-1 text-center sm:text-left">
-                  <CardDescription>{itinerary.places_visited.join(', ')}</CardDescription>
-                </div>
-                <div className="col-span-1 text-center sm:text-left">
-                  <CardDescription>Cost ${itinerary.cost}</CardDescription>
-                </div>
-              </div>
-            </Card>          
-        ))}
       </div>
     </div>
   );
